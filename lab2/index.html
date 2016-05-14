@@ -1,0 +1,112 @@
+﻿<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        body {
+            font-family: Verdana;
+        }
+
+        h1, h2, h3 {
+            color: darkblue;
+        }
+
+        .rating-circle {
+            height: 2em;
+            width: 2em;
+            border: .1em solid black;
+            border-radius: 1.1em;
+            display: inline-block;
+            margin: 0;
+            padding: .1em;
+        }
+
+        .rating-hover {
+            background-color: yellow;
+        }
+
+        .rating-chosen {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contoso Web Developer Conference</h1>
+    <h2>Finding elements using jQuery</h2>
+    <div>This session is about identifying elements using jQuery methods and selectors.</div>
+    <h3>Rate this session</h3>
+    <div id="rating-container" max-value="5" ></div>
+    <h4>deneme</h4>
+    <div>
+        <label for="max-value">Enter max value:</label>
+        <input type="text" id="max-value" />
+        <button type="button" id="update-max-value">Update max value</button>
+    </div>
+
+    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+
+    <script>
+
+        // your answer would go here
+        $('#update-max-value').click(function () {
+            var currval = $('#rating-container').attr('max-value');
+            if ($('#max-value').val() != null) {
+                currval = $('#max-value').val()
+            };
+            $('#rating-container').attr('max-value', currval);
+            f1();
+        });
+
+        $(f1());
+
+        function f1() {
+            $('#rating-container').html("")
+            for (var i = 0; i < $('#rating-container').attr('max-value') ; ++i) {
+                var _option = "<div class=\"rating-circle\" id = \"" + i + "\"></div>";
+                $('#rating-container').html($('#rating-container').html() + _option);
+            }
+
+            $('.rating-circle')
+				.mouseenter(
+					function () {
+					    $(this).attr("target", "target");
+					    $('.rating-circle').removeClass('rating-chosen');
+					    $(this).addClass('rating-hover');
+					    $(this).prevAll().addClass('rating-hover');
+					})
+				.mouseleave(
+					function () {
+					    $('.rating-circle').removeClass('rating-hover');
+					    $('.rating-circle').removeAttr("target");
+					    $('[chosen = chosen]').addClass('rating-chosen');
+					    $('[chosen = chosen]').prevAll().addClass('rating-chosen');
+					})
+				.mouseup(
+                    // find something to store the value
+					function () {
+					    //alert($(this).text());
+					    $('.rating-circle').removeAttr("target");
+					    $('.rating-circle').removeClass('rating-hover');
+					    $('.rating-circle').removeAttr("chosen");
+					    $(this).attr('chosen', 'chosen');
+					    $(this).addClass('rating-chosen');
+					    $(this).prevAll().addClass('rating-chosen');
+					    //$(this).parent().attr("chosen", (this).attr('id'));
+
+					})
+				.mousedown(	// needed to add this in order to handle situations clicking down one selection and up in another  object
+                    // find something to store the value
+					function () {
+					    $('.rating-circle').removeAttr("target");
+					    $('.rating-circle').removeClass('rating-hover');
+					    $('.rating-circle').removeAttr("chosen");
+					    $(this).attr('chosen', 'chosen');
+					    $(this).addClass('rating-chosen');
+					    $(this).prevAll().addClass('rating-chosen');
+					    //$(this).parent().attr("chosen", (this).attr('id'));
+					});
+        };
+
+
+    </script>
+</body>
+</html>
